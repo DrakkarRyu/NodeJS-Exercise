@@ -2,7 +2,7 @@ const { Repair } = require('../models/repair.model');
 
 const getAllRepairs = async (req, res) => {
   try {
-    const repairs = await Repair.findAll({ where: { status: pending } });
+    const repairs = await Repair.findAll({ where: { status: 'pending' } });
 
     res.status(200).json({
       repairs,

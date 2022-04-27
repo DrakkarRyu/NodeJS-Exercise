@@ -12,13 +12,13 @@ const Repair = db.define('repair', {
     type: DataTypes.DATEONLY,
     allowNull: false,
   },
-  userId: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  },
   status: {
     type: DataTypes.STRING,
     defaultValue: 'pending',
+  },
+  userId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
   },
 });
 
