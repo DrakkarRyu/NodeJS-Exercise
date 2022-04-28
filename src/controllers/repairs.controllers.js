@@ -39,10 +39,10 @@ const getRepairById = async (req, res) => {
 const updateRepair = async (req, res) => {
   try {
     const { id } = req.params;
-    const { data } = req.body;
+    const { date } = req.body;
     const repair = await Repair.findOne({ where: { id } });
 
-    await repair.update({ data });
+    await repair.update({ date });
 
     res.status(200).json({ status: 'completed' });
   } catch (error) {
