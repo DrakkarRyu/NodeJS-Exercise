@@ -42,7 +42,7 @@ const updateRepair = async (req, res) => {
     const { date } = req.body;
     const repair = await Repair.findOne({ where: { id } });
 
-    await repair.update({ date });
+    await repair.update({ status: 'completed' });
 
     res.status(200).json({ status: 'completed' });
   } catch (error) {
