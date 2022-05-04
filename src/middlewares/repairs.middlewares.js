@@ -1,24 +1,23 @@
+//importing the model
 const { Repair } = require('../models/repair.model');
 
-const repairExists = async (req, res, next) => {
-  try {
-    const { id } = req.params;
+//importing utils
 
-    const repair = await Repair.findOne({ where: { id } });
+const { catchAsync } = require('../utils/catchAsync');
+const { AppError } = require('../utils/appError');
 
-    if (!repair) {
-      return res.status(404).json({
-        status: 'error',
-        message: 'Not exist a pending repair',
-      });
-    }
+//making the function
 
-    req.repair = repair;
+const repairExists = catchAsync(async (req, res, next) => {
+  const { id } = req.params;
 
-    next();
-  } catch (error) {
-    console.log(error);
+  const repair = await Repair.findOne({ where: { id } });
+
+  if (!repair) {
+    return next(new AppError('Not exist a pending repair', 404));
   }
-};
+  req.repair = repair;
+  next();
+});
 
 module.exports = { repairExists };

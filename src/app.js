@@ -1,27 +1,24 @@
 const express = require('express');
 
-const { db } = require('./database/database');
+//Importing global error controller
 
+const { globalErrorHandler } = require('./controllers/errors.controller');
+
+//Routers
 const { usersRouter } = require('./routes/users.routes');
 const { repairRouter } = require('./routes/repairs.routes');
 
+//Init express app
 const app = express();
 
+//For to enable incoming JSON data
 app.use(express.json());
 
+//Endpoints
 app.use('/api/v1/users', usersRouter);
 app.use('/api/v1/repairs', repairRouter);
 
-db.authenticate()
-  .then(() => console.log('Connection has been established successfully'))
-  .catch(err => console.log(err));
+//Global error controller app
+app.use('*', globalErrorHandler);
 
-db.sync()
-  .then(() => console.log('Database synced'))
-  .catch(err => console.log(err));
-
-const PORT = 9666;
-
-app.listen(PORT, () => {
-  console.log(`Express app running on port: ${PORT}`);
-});
+module.exports = { app };
