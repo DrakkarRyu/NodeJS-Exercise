@@ -12,7 +12,22 @@ const createUserValidations = [
     .withMessage('Password cannot be empty')
     .isLength({ min: 8 })
     .withMessage('Password must be at least 8 characters long'),
-  body('role').notEmpty().withMessage('role can not be empty'),
+];
+
+const createRepairValidations = [
+  body('date')
+    .notEmpty()
+    .withMessage('Date can not be empty')
+    .isDate()
+    .withMessage('Must be a valid date'),
+  body('computerNumber')
+    .notEmpty()
+    .withMessage('Computer Number or Serial Number can not be empty'),
+  body('comments')
+    .notEmpty()
+    .withMessage('can not be empty')
+    .isLength({ min: 10 })
+    .withMessage('Comments must be at least 10 characters long'),
 ];
 
 const checkValidations = (req, res, next) => {
@@ -33,5 +48,6 @@ const checkValidations = (req, res, next) => {
 
 module.exports = {
   createUserValidations,
+  createRepairValidations,
   checkValidations,
 };
