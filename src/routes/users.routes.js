@@ -5,6 +5,7 @@ const { body } = require('express-validator');
 const {
   userExists,
   protectToken,
+  protectAccountOwner,
 } = require('../middlewares/users.middlewares');
 //importing validation middleware
 const {
@@ -33,7 +34,7 @@ router.use(protectToken);
 router
   .route('/:id')
   .get(userExists, getUserById)
-  .patch(userExists, updateUser)
-  .delete(userExists, deleteUser);
+  .patch(userExists, protectAccountOwner, updateUser)
+  .delete(userExists, protectAccountOwner, deleteUser);
 
 module.exports = { usersRouter: router };

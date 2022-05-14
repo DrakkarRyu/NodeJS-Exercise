@@ -3,6 +3,7 @@ const { body } = require('express-validator');
 
 // importing Middlewares
 const { repairExists } = require('../middlewares/repairs.middlewares');
+const { protectEmployee } = require('../middlewares/users.middlewares');
 
 //importing validation middleware
 const {
@@ -23,14 +24,14 @@ const router = express.Router();
 
 router
   .route('/')
-  .get(getAllRepairs)
+  .get(getAllRepairs, protectEmployee)
   .post(createRepairValidations, checkValidations, createRepair);
 
 router
   .use('/:id', repairExists)
   .route('/:id')
-  .get(getRepairById)
-  .patch(updateRepair)
-  .delete(deleteRepair);
+  .get(getRepairById, protectEmployee)
+  .patch(updateRepair, protectEmployee)
+  .delete(deleteRepair, protectEmployee);
 
 module.exports = { repairRouter: router };

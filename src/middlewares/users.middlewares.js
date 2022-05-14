@@ -30,6 +30,13 @@ const protectToken = catchAsync(async (req, res, next) => {
   next();
 });
 
+const protectEmployee = catchAsync(async (req, res, next) => {
+  if (req.sessionUser.role !== 'employee') {
+    return next(new AppError('Can not access', 403));
+  }
+  next();
+});
+
 //making the function
 const userExists = catchAsync(async (req, res, next) => {
   const { id } = req.params;
@@ -45,4 +52,24 @@ const userExists = catchAsync(async (req, res, next) => {
   req.user = user;
   next();
 });
-module.exports = { userExists, protectToken };
+
+const protectAccountOwner = catchAsync(async (req, res, next) => {
+  // Get current session user and the user that is going to be updated
+  const { sessionUser, user } = req;
+
+  // Compare the id's
+  if (sessionUser.id !== user.id) {
+    // If the ids aren't equal, return error
+    return next(new AppError('You do not own this account', 403));
+  }
+
+  // If the ids are equal, the request pass
+  next();
+});
+
+module.exports = {
+  userExists,
+  protectToken,
+  protectEmployee,
+  protectAccountOwner,
+};
