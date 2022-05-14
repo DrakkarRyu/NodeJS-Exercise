@@ -16,6 +16,7 @@ const {
   getUserById,
   updateUser,
   deleteUser,
+  login,
 } = require('../controllers/users.controllers');
 
 const router = express.Router();
@@ -23,6 +24,7 @@ const router = express.Router();
 router.get('/', getAllUsers);
 
 router.post('/', createUserValidations, checkValidations, createUser);
+router.post('/login', login);
 
 router
   .route('/:id')

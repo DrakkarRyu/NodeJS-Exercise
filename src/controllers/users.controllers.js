@@ -4,6 +4,7 @@ const { User } = require('../models/user.model');
 
 //importing utils
 const { catchAsync } = require('../utils/catchAsync');
+const { AppError } = require('../utils/appError');
 
 //making the functions
 
@@ -13,6 +14,24 @@ const getAllUsers = catchAsync(async (req, res, next) => {
   });
   res.status(200).json({
     users,
+  });
+});
+
+const login = catchAsync(async (req, res, next) => {
+  const { email, password } = req.body;
+
+  const user = await User.findOne({ where: { email, status: 'active' } });
+
+  if (!user || !(await bcrypt.compare(password, user.password))) {
+    return next(new AppError('Invalid email or password or both', 400));
+  }
+
+  // JWT
+
+  user.password = undefined;
+
+  res.status(201).json({
+    status: 'sucess',
   });
 });
 
@@ -65,4 +84,5 @@ module.exports = {
   getUserById,
   updateUser,
   deleteUser,
+  login,
 };
