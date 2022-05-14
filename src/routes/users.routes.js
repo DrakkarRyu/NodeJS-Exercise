@@ -2,7 +2,10 @@ const express = require('express');
 const { body } = require('express-validator');
 
 //importing Middleware
-const { userExists } = require('../middlewares/users.middlewares');
+const {
+  userExists,
+  protectToken,
+} = require('../middlewares/users.middlewares');
 //importing validation middleware
 const {
   createUserValidations,
@@ -25,6 +28,7 @@ router.get('/', getAllUsers);
 
 router.post('/', createUserValidations, checkValidations, createUser);
 router.post('/login', login);
+router.use(protectToken);
 
 router
   .route('/:id')

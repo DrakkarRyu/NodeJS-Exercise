@@ -1,6 +1,10 @@
 const bcrypt = require('bcryptjs');
 //importing model
 const { User } = require('../models/user.model');
+const jwt = require('jsonwebtoken');
+const dotenv = require('dotenv');
+
+dotenv.config();
 
 //importing utils
 const { catchAsync } = require('../utils/catchAsync');
@@ -28,10 +32,15 @@ const login = catchAsync(async (req, res, next) => {
 
   // JWT
 
+  const token = await jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_EXPIRES_IN,
+  });
+
   user.password = undefined;
 
   res.status(201).json({
-    status: 'sucess',
+    user,
+    token,
   });
 });
 

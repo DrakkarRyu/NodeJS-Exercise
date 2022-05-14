@@ -14,8 +14,20 @@ const protectToken = catchAsync(async (req, res, next) => {
     req.headers.authorization &&
     req.headers.authorization.startsWith('Baerer')
   ) {
-    token = token.header.authorization.split('')[1];
+    token = token.header.authorization.split(' ')[1];
   }
+  if (!token) {
+    return next(new AppError('session expired', 403));
+  }
+  const decoded = await jwt.verify(token, process.env.JWT_SECRET);
+  const user = await User.findOne({
+    where: { id: decoded.id, status: 'active' },
+  });
+  if (!user) {
+    return next(new AppError('the owner pf this token is not avaible'));
+  }
+  req.sessionUser = user;
+  next();
 });
 
 //making the function
@@ -33,4 +45,4 @@ const userExists = catchAsync(async (req, res, next) => {
   req.user = user;
   next();
 });
-module.exports = { userExists };
+module.exports = { userExists, protectToken };
