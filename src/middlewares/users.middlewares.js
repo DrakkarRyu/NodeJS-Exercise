@@ -32,7 +32,7 @@ const protectToken = catchAsync(async (req, res, next) => {
 
 const protectEmployee = catchAsync(async (req, res, next) => {
   if (req.sessionUser.role !== 'employee') {
-    return next(new AppError('Can not access', 403));
+    return next(new AppError('Can not access', 407));
   }
   next();
 });
