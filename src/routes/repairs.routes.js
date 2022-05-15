@@ -14,6 +14,7 @@ const {
 // Controller
 const {
   getAllRepairs,
+  getCompletedRepairs,
   createRepair,
   getRepairById,
   updateRepair,
@@ -21,6 +22,8 @@ const {
 } = require('../controllers/repairs.controllers');
 
 const router = express.Router();
+
+router.get('/completed', getCompletedRepairs);
 
 router
   .route('/')

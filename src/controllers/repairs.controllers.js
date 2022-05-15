@@ -16,6 +16,18 @@ const getAllRepairs = catchAsync(async (req, res, next) => {
   });
 });
 
+// completed repairs
+const getCompletedRepairs = catchAsync(async (req, res, next) => {
+  const repairs = await Repairs.findAll({
+    where: { status: 'completed' },
+    include: [{ model: User, attributes: ['id', 'name', 'email'] }],
+  });
+
+  res.status(201).json({
+    repairs,
+  });
+});
+
 const createRepair = catchAsync(async (req, res, next) => {
   const { date, computerNumber, comments, userId } = req.body;
   const newRepair = await Repair.create({
@@ -60,6 +72,7 @@ const deleteRepair = catchAsync(async (req, res) => {
 
 module.exports = {
   getAllRepairs,
+  getCompletedRepairs,
   createRepair,
   getRepairById,
   updateRepair,
