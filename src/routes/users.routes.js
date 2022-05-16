@@ -22,7 +22,7 @@ const {
   updateUser,
   deleteUser,
   login,
-  checkToken,
+  //checkToken,
 } = require('../controllers/users.controllers');
 
 const router = express.Router();
@@ -32,7 +32,7 @@ router.post('/login', login);
 router.get('/', getAllUsers);
 router.use(protectToken);
 
-router.get('/check-token', checkToken);
+//router.get('/check-token', checkToken);
 
 router
   .route('/:id')
