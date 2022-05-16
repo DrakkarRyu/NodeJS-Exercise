@@ -26,12 +26,12 @@ const {
 } = require('../controllers/users.controllers');
 
 const router = express.Router();
-router.use(protectToken);
-
-router.get('/', getAllUsers);
 
 router.post('/', createUserValidations, checkValidations, createUser);
 router.post('/login', login);
+router.get('/', getAllUsers);
+router.use(protectToken);
+
 router.get('/check-token', checkToken);
 
 router
