@@ -60,7 +60,7 @@ const protectAccountOwner = catchAsync(async (req, res, next) => {
   // Compare the id's
   if (sessionUser.id !== user.id) {
     // If the ids aren't equal, return error
-    return next(new AppError('You do not own this account', 403));
+    return next(new AppError('You do not own this account', 408));
   }
 
   // If the ids are equal, the request pass
