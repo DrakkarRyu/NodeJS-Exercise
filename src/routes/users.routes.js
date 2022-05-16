@@ -7,6 +7,7 @@ const {
   protectToken,
   protectAccountOwner,
 } = require('../middlewares/users.middlewares');
+
 //importing validation middleware
 const {
   createUserValidations,
@@ -25,12 +26,12 @@ const {
 } = require('../controllers/users.controllers');
 
 const router = express.Router();
+router.use(protectToken);
 
 router.get('/', getAllUsers);
 
 router.post('/', createUserValidations, checkValidations, createUser);
 router.post('/login', login);
-router.use(protectToken);
 router.get('/check-token', checkToken);
 
 router
