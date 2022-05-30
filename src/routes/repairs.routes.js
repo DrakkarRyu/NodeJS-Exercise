@@ -6,6 +6,7 @@ const { repairExists } = require('../middlewares/repairs.middlewares');
 const {
   protectEmployee,
   protectToken,
+  protectAccountOwner,
 } = require('../middlewares/users.middlewares');
 
 //importing validation middleware
@@ -32,7 +33,12 @@ router.get('/completed', getCompletedRepairs);
 router
   .route('/')
   .get(protectEmployee, getAllRepairs)
-  .post(createRepairValidations, checkValidations, createRepair);
+  .post(
+    protectAccountOwner,
+    createRepairValidations,
+    checkValidations,
+    createRepair
+  );
 
 router
   .use('/:id', repairExists)
