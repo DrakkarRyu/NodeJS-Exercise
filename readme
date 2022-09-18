@@ -1,0 +1,13 @@
+For to run the server you need a file with name "config.env" it need the follow datas.
+This proyect was developed with postgresql, so you need to run pgadmin and to create a new data base
+
+NODE_ENV=development
+PORT= the port where you wanna run the server, example "PORT = 9090"
+
+DB=The name of your database
+DB_HOST=localhost
+DB_USER=your user, normaly the custom name is "postgres"
+DB_PASSWORD=your password of pgadmin
+
+JWT_SECRET=you need to generate your own JWT you can make one in your terminal
+JWT_EXPIRES_IN=3h
